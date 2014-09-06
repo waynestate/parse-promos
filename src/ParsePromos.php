@@ -156,54 +156,54 @@ class ParsePromos {
     }
 
     /**
-     * @param mixed $a
-     * @param mixed $b
+     * @param mixed $first
+     * @param mixed $second
      * @return int
      */
-    private static function sortDisplayDateAsc($a, $b)
+    private static function sortDisplayDateAsc($first, $second)
     {
-        if ($a['display_start_date'] == $b['display_start_date']) {
+        if ($first['display_start_date'] == $second['display_start_date']) {
             return 0;
         }
-        return ($a['display_start_date'] < $b['display_start_date']) ? -1 : 1;
+        return ($first['display_start_date'] < $second['display_start_date']) ? -1 : 1;
     }
 
     /**
-     * @param mixed $a
-     * @param mixed $b
+     * @param mixed $first
+     * @param mixed $second
      * @return int
      */
-    private static function sortDisplayDateDesc($a, $b)
+    private static function sortDisplayDateDesc($first, $second)
     {
-        if ($a['display_start_date'] == $b['display_start_date']) {
+        if ($first['display_start_date'] == $second['display_start_date']) {
             return 0;
         }
-        return ($a['display_start_date'] > $b['display_start_date']) ? -1 : 1;
+        return ($first['display_start_date'] > $second['display_start_date']) ? -1 : 1;
     }
 
     /**
-     * @param mixed $a
-     * @param mixed $b
+     * @param mixed $first
+     * @param mixed $second
      * @return int
      */
-    private static function sortStartDateDesc($a, $b)
+    private static function sortStartDateDesc($first, $second)
     {
-        if ($a['start_date'] == $b['start_date']) {
+        if ($first['start_date'] == $second['start_date']) {
             return 0;
         }
-        return ($a['start_date'] > $b['start_date']) ? -1 : 1;
+        return ($first['start_date'] > $second['start_date']) ? -1 : 1;
     }
 
     /**
-     * @param mixed $a
-     * @param mixed $b
+     * @param mixed $first
+     * @param mixed $second
      * @return int
      */
-    private static function sortStartDateAsc($a, $b)
+    private static function sortStartDateAsc($first, $second)
     {
-        if ($a['start_date'] == $b['start_date']) {
+        if ($first['start_date'] == $second['start_date']) {
             return 0;
         }
-        return ($a['start_date'] < $b['start_date']) ? -1 : 1;
+        return ($first['start_date'] < $second['start_date']) ? -1 : 1;
     }
 }
