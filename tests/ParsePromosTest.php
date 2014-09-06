@@ -211,6 +211,30 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
+    public function shouldOrderByStartDateAsc()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'order:start_date_asc',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // There should be the same number of elements started with
+        $this->assertCount(3, $parsed['one']);
+
+        // Loop through each item - 1
+        $length = count($parsed['one']);
+        for($i = 0; $i < $length - 1; ++$i) {
+            // Compare the current start_date to the next item
+            $this->assertLessThanOrEqual( strtotime($parsed['one'][$i+1]['start_date']), strtotime($parsed['one'][$i]['start_date']) );
+        }
+    }
+
+    /**
+     * @test
+     */
     public function shouldChainConfigs()
     {
         // Group 'one' should only return the first item

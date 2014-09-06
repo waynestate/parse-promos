@@ -141,6 +141,9 @@ class ParsePromos {
             case 'start_date_desc':
                 usort( $array, 'self::sortStartDateDesc' );
                 break;
+            case 'start_date_asc':
+                usort( $array, 'self::sortStartDateAsc' );
+                break;
             case 'display_date_desc':
                 usort( $array, 'self::sortDisplayDateDesc' );
                 break;
@@ -173,5 +176,18 @@ class ParsePromos {
             return 0;
         }
         return ($a['start_date'] > $b['start_date']) ? -1 : 1;
+    }
+
+    /**
+     * @param mixed $a
+     * @param mixed $b
+     * @return int
+     */
+    private static function sortStartDateAsc($a, $b)
+    {
+        if ($a['start_date'] == $b['start_date']) {
+            return 0;
+        }
+        return ($a['start_date'] < $b['start_date']) ? -1 : 1;
     }
 }
