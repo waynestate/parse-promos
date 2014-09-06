@@ -15,8 +15,8 @@ Create the object
 
     # start.php
 
-    /** @var WayneState\Promotions\ParsePromos $parsePromos */
-    $parsePromos = new WayneState\Promotions\ParsePromos();
+    /** @var Waynestate\Promotions\ParsePromos $parsePromos */
+    $parsePromos = new Waynestate\Promotions\ParsePromos();
 
 Make an API call for promotions
 
