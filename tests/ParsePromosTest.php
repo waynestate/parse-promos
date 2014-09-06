@@ -80,8 +80,25 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
 
         // Basic parse with no config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
-        
+
         // Verify there is only one element in the 'one' group
         $this->assertCount(1, $parsed['one']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitMultiple()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'limit:2',
+        );
+
+        // Basic parse with no config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // Verify there is only one element in the 'one' group
+        $this->assertCount(2, $parsed['one']);
     }
 }
