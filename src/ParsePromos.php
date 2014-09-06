@@ -1,4 +1,4 @@
-<?php namespace WayneState;
+<?php namespace WayneState\Promotions;
 
 /**
  * Class ParsePromos
