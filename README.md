@@ -10,8 +10,8 @@ Create the object
 
     # start.php
 
-    /** @var WayneState\ParsePromos $parsePromos */
-    $parsePromos = new WayneState\ParsePromos();
+    /** @var WayneState\Promotions\ParsePromos $parsePromos */
+    $parsePromos = new WayneState\Promotions\ParsePromos();
 
 Make an API call for promotions
 
@@ -30,7 +30,7 @@ Make an API call for promotions
     $group_config = array(
         'contact' => 'first',
         'progress-amount' => 'limit:1',
-        'progress-text' => 'randomize',
+        'progress-text' => 'randomize|first',
     );
 
     // Pull all the active items from the API
@@ -52,5 +52,8 @@ Config options
     'randomize' = Take the returned list and mix it up
     'limit:#' = Return just # number of results from the list
     'order:start_date_desc' = Return an ordered list by 'start_date' DESC
+    'order:start_date_asc' = Return an ordered list by 'start_date' ASC
     'order:display_date_desc' = Return an ordered list by 'display_date' DESC
     'page_id:#' = Return only promotions in the list marked for this page
+
+    'order:start_date_desc|first' = Options can be run in combination by piping to another config
