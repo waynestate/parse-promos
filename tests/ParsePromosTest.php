@@ -7,30 +7,81 @@ use Waynestate\Promotions\ParsePromos;
 class ParsePromosTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @test
+     * @var
      */
-    public function changeToGroupName()
+    protected $promos;
+
+    /**
+     * @var
+     */
+    protected $parser;
+
+    /**
+     * @var
+     */
+    protected $groups;
+
+    /**
+     *
+     */
+    protected function setUp()
     {
         // Create the parser
-        $parser = new ParsePromos;
+        $this->parser = new ParsePromos;
 
-        // Stub Data
-        $promos = array('promotions' => array(
-            '1' => array (
-                'promo_item_id' => '1',
-                'promo_group_id' => '1',
-                'data' => 'foo',
-            ),
-        ));
-        $group_names = array(
-            '1' => 'first',
+        // Stub group names
+        $this->groups = array(
+            '1' => 'one',
         );
 
-        // To the parse
-        $parsed = $parser->parse($promos, $group_names);
-
-        // Verify the array has been reorganized
-        $this->assertArrayHasKey('first', $parsed);
+        // Stub promotions
+        $this->promos = array(
+            'promotions' => array(
+                '1' => array (
+                    'promo_item_id' => '1',
+                    'promo_group_id' => '1',
+                    'data' => 'foo',
+                ),
+                '2' => array (
+                    'promo_item_id' => '2',
+                    'promo_group_id' => '1',
+                    'data' => 'foo',
+                ),
+                '3' => array (
+                    'promo_item_id' => '3',
+                    'promo_group_id' => '1',
+                    'data' => 'foo',
+                ),
+            )
+        );
     }
 
+    /**
+     * @test
+     */
+    public function changeKeysToGroupName()
+    {
+        // Basic parse with no config
+        $parsed = $this->parser->parse($this->promos, $this->groups);
+
+        // Verify the array has been reorganized
+        $this->assertArrayHasKey('one', $parsed);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitOne()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'first',
+        );
+
+        // Basic parse with no config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+        
+        // Verify there is only one element in the 'one' group
+        $this->assertCount(1, $parsed['one']);
+    }
 }
