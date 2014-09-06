@@ -40,16 +40,19 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                 '1' => array (
                     'promo_item_id' => '1',
                     'promo_group_id' => '1',
+                    'page_id' => '1,2,3,4',
                     'data' => 'foo',
                 ),
                 '2' => array (
                     'promo_item_id' => '2',
                     'promo_group_id' => '1',
+                    'page_id' => '2,3,4',
                     'data' => 'foo',
                 ),
                 '3' => array (
                     'promo_item_id' => '3',
                     'promo_group_id' => '1',
+                    'page_id' => '3,4',
                     'data' => 'foo',
                 ),
             )
@@ -78,7 +81,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
             'one' => 'first',
         );
 
-        // Basic parse with no config
+        // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // Verify there is only one element in the 'one' group
@@ -95,10 +98,61 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
             'one' => 'limit:2',
         );
 
-        // Basic parse with no config
+        // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // Verify there is only one element in the 'one' group
         $this->assertCount(2, $parsed['one']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShuffle()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'shuffle',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // Didn't setup a mock yet so just testing there are the same number of elements in returned array
+        $this->assertCount(3, $parsed['one']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitToPageThatExists()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'page_id:3',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // Didn't setup a mock yet so just testing there are the same number of elements in returned array
+        $this->assertCount(3, $parsed['one']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitToPageThatDoesNotExists()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'page_id:6',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // Didn't setup a mock yet so just testing there are the same number of elements in returned array
+        $this->assertCount(0, $parsed['one']);
     }
 }
