@@ -1,8 +1,8 @@
-<?php namespace WayneState\Promotions;
+<?php namespace Waynestate\Promotions;
 
 /**
  * Class ParsePromos
- * @package WayneState
+ * @package Waynestate
  */
 class ParsePromos {
     /**
@@ -53,7 +53,7 @@ class ParsePromos {
      * @param string $option
      * @return array|mixed
      */
-    function performConfig(array &$array, $option)
+    protected function performConfig(array &$array, $option)
     {
         // Check to see if there are options on the option
         $option = explode(':', $option);
