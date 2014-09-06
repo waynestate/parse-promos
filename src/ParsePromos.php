@@ -147,9 +147,25 @@ class ParsePromos {
             case 'display_date_desc':
                 usort( $array, 'self::sortDisplayDateDesc' );
                 break;
+            case 'display_date_asc':
+                usort( $array, 'self::sortDisplayDateAsc' );
+                break;
         }
 
         return $array;
+    }
+
+    /**
+     * @param mixed $a
+     * @param mixed $b
+     * @return int
+     */
+    private static function sortDisplayDateAsc($a, $b)
+    {
+        if ($a['display_start_date'] == $b['display_start_date']) {
+            return 0;
+        }
+        return ($a['display_start_date'] < $b['display_start_date']) ? -1 : 1;
     }
 
     /**
