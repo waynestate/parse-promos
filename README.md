@@ -3,7 +3,10 @@ ParsePromos Class
 
 Parse promotion arrays from the Wayne State University API
 
+[![Latest Stable Version](https://poser.pugx.org/waynestate/parse-promos/v/stable.svg)](https://packagist.org/packages/waynestate/parse-promos)
 [![Build Status](https://travis-ci.org/waynestate/parse-promos.svg?branch=develop)](https://travis-ci.org/waynestate/parse-promos)
+[![Total Downloads](https://poser.pugx.org/waynestate/parse-promos/downloads.svg)](https://packagist.org/packages/waynestate/parse-promos)
+[![License](https://poser.pugx.org/waynestate/parse-promos/license.svg)](https://packagist.org/packages/waynestate/parse-promos)
 
 Usage
 ------------
