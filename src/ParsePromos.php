@@ -55,64 +55,94 @@ class ParsePromos {
      */
     protected function performConfig(array &$array, $option)
     {
-        // Check to see if there are options on the option
-        $option = explode(':', $option);
+        // Allow for the option to be a pipe delimited list
+        foreach ( explode( '|', $option ) as $action ) {
 
-        // Perform the action based on the config
-        switch (current($option)) {
-            // Shuffle the array (looses keys)
-            case 'randomize':
-                shuffle($array);
-                break;
+            // Check to see if there are options on the action
+            $action = explode( ':', $action );
 
-            // Picks just the first one
-            case 'first':
-                $array = current($array);
-                break;
+            // Perform the action based on the config
+            switch (current( $action )) {
 
-            // Reorder by start_date descending
-            case 'order':
-                // Require there but a second param for the count
-                if ( !isset($option[1]) )
+                // Shuffle the array (looses keys)
+                case 'randomize':
+                    shuffle( $array );
                     break;
 
-                if ( $option[1] == 'start_date_desc') {
-                    usort( $array, 'self::sortStartDateDesc' );
-                }
-
-                if ( $option[1] == 'display_date_desc') {
-                    usort( $array, 'self::sortDisplayDateDesc' );
-                }
-                break;
-
-            // Limit the number returned
-            case 'limit':
-                // Require there but a second param for the count
-                if ( !isset($option[1]) )
-                    break;
-
-                // Chop off the rest of the array
-                $array = array_slice($array, 0, (int)$option[1], true);
-                break;
-
-            // Only return the 'per page' associated with a specific page_id
-            case 'page_id':
-                // Require there but a second param for the count
-                if ( !isset($option[1]) )
-                    break;
-
-                // Return only the promotions selected for this page
-                $page_array = array();
-                foreach ( $array as $key => $item ) {
-                    if ( strstr(',' . $item['page_id'] . ',', ',' . $option[1] . ',') ) {
-                        $page_array[$key] = $item;
+                // Limit the number returned
+                case 'limit':
+                    if ( isset($action[1]) ) {
+                        $array = $this->arrayLimit( $array, $action[1] );
                     }
-                }
-                $array = $page_array;
-                break;
+                    break;
 
-            // Do nothing to the array
-            default:
+                // Picks just the first one
+                case 'first':
+                    $array = $this->arrayLimit( $array, 1 );
+                    break;
+
+                // Only return the 'per page' associated with a specific page_id
+                case 'page_id':
+                    if ( isset($action[1]) ) {
+                        $array = $this->arrayPage( $array, $action[1] );
+                    }
+                    break;
+
+                // Reorder array by an array key
+                case 'order':
+                    if ( isset($action[1]) ) {
+                        $array = $this->arrayOrder( $array, $action[1] );
+                    }
+                    break;
+            }
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param array $array
+     * @param $count
+     * @return array
+     */
+    protected function arrayLimit( array &$array, $count )
+    {
+        // Chop off the rest of the array
+        return array_slice( $array, 0, (int) $count, true );
+    }
+
+    /**
+     * @param array $array
+     * @param $page_id
+     * @return array
+     */
+    protected function arrayPage( array &$array, $page_id )
+    {
+        // Return only the promotions selected for this page
+        $page_array = array();
+
+        foreach ( $array as $key => $item ) {
+            if ( strstr(',' . $item['page_id'] . ',', ',' . $page_id . ',') ) {
+                $page_array[$key] = $item;
+            }
+        }
+
+        return $page_array;
+    }
+
+    /**
+     * @param array $array
+     * @param $field
+     * @return array
+     */
+    protected function arrayOrder( array &$array, $field )
+    {
+        switch ($field) {
+            case 'start_date_desc':
+                usort( $array, 'self::sortStartDateDesc' );
+                break;
+            case 'display_date_desc':
+                usort( $array, 'self::sortDisplayDateDesc' );
                 break;
         }
 
