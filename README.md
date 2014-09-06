@@ -4,7 +4,6 @@ ParsePromos Class
 Parse promotion arrays from the Wayne State University API
 
 [![Build Status](https://travis-ci.org/waynestate/parse-promos.svg?branch=develop)](https://travis-ci.org/waynestate/parse-promos)
-[![dependencies](https://david-dm.org/waynestate/parse-promos.png)](https://david-dm.org/waynestate/parse-promos)
 
 Usage
 ------------
