@@ -178,11 +178,36 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         // There should be the same number of elements started with
         $this->assertCount(3, $parsed['one']);
 
-        // The display_date of the first should be greater than the last (quick check)
-        $first = current($parsed['one']);
-        $last = end($parsed['one']);
+        // Loop through each item - 1
+        $length = count($parsed['one']);
+        for($i = 0; $i < $length - 1; ++$i) {
+            // Compare the current start_date to the next item
+            $this->assertGreaterThanOrEqual( strtotime($parsed['one'][$i+1]['display_start_date']), strtotime($parsed['one'][$i]['display_start_date']) );
+        }
+    }
 
-        $this->assertGreaterThanOrEqual( strtotime($last['display_start_date']), strtotime($first['display_start_date']) );
+    /**
+     * @test
+     */
+    public function shouldOrderByDisplayDateAsc()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'order:display_date_asc',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // There should be the same number of elements started with
+        $this->assertCount(3, $parsed['one']);
+
+        // Loop through each item - 1
+        $length = count($parsed['one']);
+        for($i = 0; $i < $length - 1; ++$i) {
+            // Compare the current start_date to the next item
+            $this->assertLessThanOrEqual( strtotime($parsed['one'][$i+1]['display_start_date']), strtotime($parsed['one'][$i]['display_start_date']) );
+        }
     }
 
     /**
@@ -201,11 +226,12 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         // There should be the same number of elements started with
         $this->assertCount(3, $parsed['one']);
 
-        // The display_date of the first should be greater than the last (quick check)
-        $first = current($parsed['one']);
-        $last = end($parsed['one']);
-
-        $this->assertGreaterThanOrEqual( strtotime($last['start_date']), strtotime($first['start_date']) );
+        // Loop through each item - 1
+        $length = count($parsed['one']);
+        for($i = 0; $i < $length - 1; ++$i) {
+            // Compare the current start_date to the next item
+            $this->assertGreaterThanOrEqual( strtotime($parsed['one'][$i+1]['start_date']), strtotime($parsed['one'][$i]['start_date']) );
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 {
     "name": "waynestate/parse-promos",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": "library",
     "description": "Parse promotion arrays from the Wayne State University API",
     "keywords": ["array","parse"],
