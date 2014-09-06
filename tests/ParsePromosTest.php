@@ -41,18 +41,24 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                     'promo_item_id' => '1',
                     'promo_group_id' => '1',
                     'page_id' => '1,2,3,4',
+                    'display_start_date' => '2014-01-01',
+                    'start_date' => '2014-01-01',
                     'data' => 'foo',
                 ),
                 '2' => array (
                     'promo_item_id' => '2',
                     'promo_group_id' => '1',
                     'page_id' => '2,3,4',
+                    'display_start_date' => '2014-01-02',
+                    'start_date' => '2014-01-03',
                     'data' => 'foo',
                 ),
                 '3' => array (
                     'promo_item_id' => '3',
                     'promo_group_id' => '1',
                     'page_id' => '3,4',
+                    'display_start_date' => '2014-01-03',
+                    'start_date' => '2014-01-02',
                     'data' => 'foo',
                 ),
             )
@@ -135,7 +141,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
-        // Didn't setup a mock yet so just testing there are the same number of elements in returned array
+        // There should only be three elements with this page_id
         $this->assertCount(3, $parsed['one']);
     }
 
@@ -152,7 +158,57 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
-        // Didn't setup a mock yet so just testing there are the same number of elements in returned array
+        // There should be no elements with this page_id
         $this->assertCount(0, $parsed['one']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOrderByDisplayDateDesc()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'order:display_date_desc',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // There should be the same number of elements started with
+        $this->assertCount(3, $parsed['one']);
+
+        // The display_date of the first should be greater than the last (quick check)
+        $first = current($parsed['one']);
+        $last = end($parsed['one']);
+
+        $this->assertGreaterThanOrEqual( strtotime($last['display_start_date']), strtotime($first['display_start_date']) );
+
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOrderByStartDateDesc()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'order:start_date_desc',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // There should be the same number of elements started with
+        $this->assertCount(3, $parsed['one']);
+
+        // The display_date of the first should be greater than the last (quick check)
+        $first = current($parsed['one']);
+        $last = end($parsed['one']);
+
+        $this->assertGreaterThanOrEqual( strtotime($last['start_date']), strtotime($first['start_date']) );
+
+
     }
 }
