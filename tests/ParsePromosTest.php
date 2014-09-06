@@ -183,8 +183,6 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $last = end($parsed['one']);
 
         $this->assertGreaterThanOrEqual( strtotime($last['display_start_date']), strtotime($first['display_start_date']) );
-
-
     }
 
     /**
@@ -208,7 +206,26 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $last = end($parsed['one']);
 
         $this->assertGreaterThanOrEqual( strtotime($last['start_date']), strtotime($first['start_date']) );
+    }
 
+    /**
+     * @test
+     */
+    public function shouldChainConfigs()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'order:start_date_desc|first',
+        );
 
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // There should be the same number of elements started with
+        $this->assertCount(1, $parsed['one']);
+
+        // Ensure that item has a specific start date
+        $first = current($parsed['one']);
+        $this->assertEquals('2014-01-03', $first['start_date']);
     }
 }
