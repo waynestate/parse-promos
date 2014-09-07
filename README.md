@@ -11,11 +11,24 @@ Parse promotion arrays from the Wayne State University API
 Usage
 ------------
 
+Pull in with composer
+
+    # composer.json
+
+    {
+        "require": {
+            "waynestate/parse-promos": "0.1.*"
+        }
+    }
+
 Create the object
 
     # start.php
 
-    /** @var Waynestate\Promotions\ParsePromos $parsePromos */
+    use Waynestate\Promotions\ParsePromos;
+
+    ...
+
     $parsePromos = new Waynestate\Promotions\ParsePromos();
 
 Make an API call for promotions

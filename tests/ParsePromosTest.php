@@ -22,7 +22,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
     protected $groups;
 
     /**
-     *
+     * Setup
      */
     protected function setUp()
     {
