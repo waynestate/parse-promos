@@ -91,8 +91,8 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // Ensure a non-multi-dimentional array is returned
-        foreach ( $parsed as $key => $item ) {
-            $this->assertNotInternalType('array', $item[$key]);
+        foreach ( $parsed['one'] as $key => $item ) {
+            $this->assertNotInternalType('array', $item);
         }
     }
 
