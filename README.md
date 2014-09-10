@@ -3,17 +3,33 @@ ParsePromos Class
 
 Parse promotion arrays from the Wayne State University API
 
+[![Latest Stable Version](https://poser.pugx.org/waynestate/parse-promos/v/stable.svg)](https://packagist.org/packages/waynestate/parse-promos)
 [![Build Status](https://travis-ci.org/waynestate/parse-promos.svg?branch=develop)](https://travis-ci.org/waynestate/parse-promos)
+[![Total Downloads](https://poser.pugx.org/waynestate/parse-promos/downloads.svg)](https://packagist.org/packages/waynestate/parse-promos)
+[![License](https://poser.pugx.org/waynestate/parse-promos/license.svg)](https://packagist.org/packages/waynestate/parse-promos)
 
 Usage
 ------------
+
+Pull in with composer
+
+    # composer.json
+
+    {
+        "require": {
+            "waynestate/parse-promos": "0.1.*"
+        }
+    }
 
 Create the object
 
     # start.php
 
-    /** @var WayneState\Promotions\ParsePromos $parsePromos */
-    $parsePromos = new WayneState\Promotions\ParsePromos();
+    use Waynestate\Promotions\ParsePromos;
+
+    ...
+
+    $parsePromos = new Waynestate\Promotions\ParsePromos();
 
 Make an API call for promotions
 
@@ -50,12 +66,13 @@ Make an API call for promotions
 
 Config options
 
-    'first' = Return only the first item in the list
+    'first' = Return only the first item in the list (not part of an array)
     'randomize' = Take the returned list and mix it up
     'limit:#' = Return just # number of results from the list
     'order:start_date_desc' = Return an ordered list by 'start_date' DESC
     'order:start_date_asc' = Return an ordered list by 'start_date' ASC
     'order:display_date_desc' = Return an ordered list by 'display_date' DESC
+    'order:display_date_asc' = Return an ordered list by 'display_date' ASC
     'page_id:#' = Return only promotions in the list marked for this page
 
     'order:start_date_desc|first' = Options can be run in combination by piping to another config
