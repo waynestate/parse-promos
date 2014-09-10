@@ -78,7 +78,7 @@ class ParsePromos {
 
                 // Picks just the first one
                 case 'first':
-                    $array = $this->arrayLimit( $array, 1 );
+                    $array = current($array);
                     break;
 
                 // Only return the 'per page' associated with a specific page_id
@@ -93,11 +93,6 @@ class ParsePromos {
                     if ( isset($action[1]) ) {
                         $array = $this->arrayOrder( $array, $action[1] );
                     }
-                    break;
-
-                // Only return a single item
-                case 'first':
-                    $array = current($array);
                     break;
             }
         }
