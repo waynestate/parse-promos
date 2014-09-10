@@ -94,6 +94,11 @@ class ParsePromos {
                         $array = $this->arrayOrder( $array, $action[1] );
                     }
                     break;
+
+                // Only return a single item
+                case 'first':
+                    $array = current($array);
+                    break;
             }
         }
 
