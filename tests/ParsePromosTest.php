@@ -80,11 +80,30 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function shouldLimitOne()
+    public function shouldResturnASingleItem()
     {
         // Group 'one' should only return the first item
         $config = array(
             'one' => 'first',
+        );
+
+        // Parse the promotions based on the config
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        // Ensure a non-multi-dimentional array is returned
+        foreach ( $parsed as $key => $item ) {
+            $this->assertNotInternalType('array', $item[$key]);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitOne()
+    {
+        // Group 'one' should only return the first item
+        $config = array(
+            'one' => 'limit:1',
         );
 
         // Parse the promotions based on the config
@@ -265,7 +284,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
     {
         // Group 'one' should only return the first item
         $config = array(
-            'one' => 'order:start_date_desc|first',
+            'one' => 'order:start_date_desc|limit:1',
         );
 
         // Parse the promotions based on the config
