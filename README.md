@@ -66,7 +66,7 @@ Make an API call for promotions
 
 Config options
 
-    'first' = Return only the first item in the list
+    'first' = Return only the first item in the list (not part of an array)
     'randomize' = Take the returned list and mix it up
     'limit:#' = Return just # number of results from the list
     'order:start_date_desc' = Return an ordered list by 'start_date' DESC
@@ -76,3 +76,12 @@ Config options
     'page_id:#' = Return only promotions in the list marked for this page
 
     'order:start_date_desc|first' = Options can be run in combination by piping to another config
+
+
+Tests
+
+    phpunit
+
+Code Coverage
+
+    phpunit --coverage-html ./coverage

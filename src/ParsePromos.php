@@ -2,9 +2,10 @@
 
 /**
  * Class ParsePromos
- * @package Waynestate
+ * @package Waynestate\Promotions
  */
-class ParsePromos {
+class ParsePromos implements ParserInterface {
+
     /**
      * Parse the promotions array
      *
@@ -13,7 +14,7 @@ class ParsePromos {
      * @param array $config
      * @return array
      */
-    function parse(array &$promos, array $group_reference, $config = array())
+    public function parse(array &$promos, array $group_reference, array $config = array())
     {
         $promotions = array();
 
@@ -78,7 +79,7 @@ class ParsePromos {
 
                 // Picks just the first one
                 case 'first':
-                    $array = $this->arrayLimit( $array, 1 );
+                    $array = current($array);
                     break;
 
                 // Only return the 'per page' associated with a specific page_id
