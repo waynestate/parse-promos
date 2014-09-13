@@ -61,6 +61,22 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                     'start_date' => '2014-01-02',
                     'data' => 'foo',
                 ),
+                '4' => array (
+                    'promo_item_id' => '4',
+                    'promo_group_id' => '1',
+                    'page_id' => '4,5,6',
+                    'display_start_date' => '2014-01-03',
+                    'start_date' => '2014-01-02',
+                    'data' => 'foo',
+                ),
+                '5' => array (
+                    'promo_item_id' => '5',
+                    'promo_group_id' => '1',
+                    'page_id' => '4,6,7',
+                    'display_start_date' => '2014-01-03',
+                    'start_date' => '2014-01-02',
+                    'data' => 'foo',
+                ),
             )
         );
     }
@@ -133,18 +149,18 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function shouldShuffle()
+    public function shouldRandomize()
     {
         // Group 'one' should only return the first item
         $config = array(
-            'one' => 'shuffle',
+            'one' => 'randomize',
         );
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // Didn't setup a mock yet so just testing there are the same number of elements in returned array
-        $this->assertCount(3, $parsed['one']);
+        $this->assertCount(count($this->promos['promotions']), $parsed['one']);
     }
 
     /**
@@ -171,7 +187,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
     {
         // Group 'one' should only return the first item
         $config = array(
-            'one' => 'page_id:6',
+            'one' => 'page_id:999',
         );
 
         // Parse the promotions based on the config
@@ -195,7 +211,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // There should be the same number of elements started with
-        $this->assertCount(3, $parsed['one']);
+        $this->assertCount(count($this->promos['promotions']), $parsed['one']);
 
         // Loop through each item - 1
         $length = count($parsed['one']);
@@ -219,7 +235,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // There should be the same number of elements started with
-        $this->assertCount(3, $parsed['one']);
+        $this->assertCount(count($this->promos['promotions']), $parsed['one']);
 
         // Loop through each item - 1
         $length = count($parsed['one']);
@@ -243,7 +259,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // There should be the same number of elements started with
-        $this->assertCount(3, $parsed['one']);
+        $this->assertCount(count($this->promos['promotions']), $parsed['one']);
 
         // Loop through each item - 1
         $length = count($parsed['one']);
@@ -267,7 +283,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // There should be the same number of elements started with
-        $this->assertCount(3, $parsed['one']);
+        $this->assertCount(count($this->promos['promotions']), $parsed['one']);
 
         // Loop through each item - 1
         $length = count($parsed['one']);

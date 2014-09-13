@@ -76,3 +76,12 @@ Config options
     'page_id:#' = Return only promotions in the list marked for this page
 
     'order:start_date_desc|first' = Options can be run in combination by piping to another config
+
+
+Tests
+
+    phpunit
+
+Code Coverage
+
+    phpunit --coverage-html ./coverage
