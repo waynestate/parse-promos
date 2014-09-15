@@ -1,5 +1,8 @@
 <?php namespace Waynestate\Promotions;
 
+use Waynestate\Promotions\ParserInterface;
+use Waynestate\Promotions\ParsePromosException;
+
 /**
  * Class ParsePromos
  * @package Waynestate\Promotions
