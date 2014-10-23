@@ -8,18 +8,16 @@ Parse promotion arrays from the Wayne State University API
 [![Total Downloads](https://poser.pugx.org/waynestate/parse-promos/downloads.svg)](https://packagist.org/packages/waynestate/parse-promos)
 [![License](https://poser.pugx.org/waynestate/parse-promos/license.svg)](https://packagist.org/packages/waynestate/parse-promos)
 
-Usage
+Installation
 ------------
 
-Pull in with composer
+To install this library, run the command below and you will get the latest version
 
-    # composer.json
+    composer require waynestate/parse-promos
 
-    {
-        "require": {
-            "waynestate/parse-promos": "0.1.*"
-        }
-    }
+
+Usage
+------------
 
 Create the object
 
