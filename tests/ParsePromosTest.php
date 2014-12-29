@@ -4,8 +4,8 @@ use Waynestate\Promotions\ParsePromos;
 /**
  * Class ParsePromosTest
  */
-class ParsePromosTest extends PHPUnit_Framework_TestCase {
-
+class ParsePromosTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var
      */
@@ -37,7 +37,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         // Stub promotions
         $this->promos = array(
             'promotions' => array(
-                '1' => array (
+                '1' => array(
                     'promo_item_id' => '1',
                     'promo_group_id' => '1',
                     'page_id' => '1,2,3,4',
@@ -45,7 +45,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                     'start_date' => '2014-01-01',
                     'data' => 'foo',
                 ),
-                '2' => array (
+                '2' => array(
                     'promo_item_id' => '2',
                     'promo_group_id' => '1',
                     'page_id' => '2,3,4',
@@ -53,7 +53,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                     'start_date' => '2014-01-03',
                     'data' => 'foo',
                 ),
-                '3' => array (
+                '3' => array(
                     'promo_item_id' => '3',
                     'promo_group_id' => '1',
                     'page_id' => '3,4',
@@ -61,7 +61,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                     'start_date' => '2014-01-02',
                     'data' => 'foo',
                 ),
-                '4' => array (
+                '4' => array(
                     'promo_item_id' => '4',
                     'promo_group_id' => '1',
                     'page_id' => '4,5,6',
@@ -69,7 +69,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
                     'start_date' => '2014-01-02',
                     'data' => 'foo',
                 ),
-                '5' => array (
+                '5' => array(
                     'promo_item_id' => '5',
                     'promo_group_id' => '1',
                     'page_id' => '4,6,7',
@@ -107,7 +107,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
         // Ensure a non-multi-dimentional array is returned
-        foreach ( $parsed['one'] as $item ) {
+        foreach ($parsed['one'] as $item) {
             $this->assertNotInternalType('array', $item);
         }
     }
@@ -215,9 +215,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
 
         // Loop through each item - 1
         $length = count($parsed['one']);
-        for($i = 0; $i < $length - 1; ++$i) {
+        for ($i = 0; $i < $length - 1; ++$i) {
             // Compare the current start_date to the next item
-            $this->assertGreaterThanOrEqual( strtotime($parsed['one'][$i+1]['display_start_date']), strtotime($parsed['one'][$i]['display_start_date']) );
+            $this->assertGreaterThanOrEqual(strtotime($parsed['one'][$i+1]['display_start_date']), strtotime($parsed['one'][$i]['display_start_date']));
         }
     }
 
@@ -239,9 +239,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
 
         // Loop through each item - 1
         $length = count($parsed['one']);
-        for($i = 0; $i < $length - 1; ++$i) {
+        for ($i = 0; $i < $length - 1; ++$i) {
             // Compare the current start_date to the next item
-            $this->assertLessThanOrEqual( strtotime($parsed['one'][$i+1]['display_start_date']), strtotime($parsed['one'][$i]['display_start_date']) );
+            $this->assertLessThanOrEqual(strtotime($parsed['one'][$i+1]['display_start_date']), strtotime($parsed['one'][$i]['display_start_date']));
         }
     }
 
@@ -263,9 +263,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
 
         // Loop through each item - 1
         $length = count($parsed['one']);
-        for($i = 0; $i < $length - 1; ++$i) {
+        for ($i = 0; $i < $length - 1; ++$i) {
             // Compare the current start_date to the next item
-            $this->assertGreaterThanOrEqual( strtotime($parsed['one'][$i+1]['start_date']), strtotime($parsed['one'][$i]['start_date']) );
+            $this->assertGreaterThanOrEqual(strtotime($parsed['one'][$i+1]['start_date']), strtotime($parsed['one'][$i]['start_date']));
         }
     }
 
@@ -287,9 +287,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase {
 
         // Loop through each item - 1
         $length = count($parsed['one']);
-        for($i = 0; $i < $length - 1; ++$i) {
+        for ($i = 0; $i < $length - 1; ++$i) {
             // Compare the current start_date to the next item
-            $this->assertLessThanOrEqual( strtotime($parsed['one'][$i+1]['start_date']), strtotime($parsed['one'][$i]['start_date']) );
+            $this->assertLessThanOrEqual(strtotime($parsed['one'][$i+1]['start_date']), strtotime($parsed['one'][$i]['start_date']));
         }
     }
 

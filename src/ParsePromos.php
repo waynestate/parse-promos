@@ -7,8 +7,8 @@ use Waynestate\Promotions\ParsePromosException;
  * Class ParsePromos
  * @package Waynestate\Promotions
  */
-class ParsePromos implements ParserInterface {
-
+class ParsePromos implements ParserInterface
+{
     /**
      * Parse the promotions array
      *
@@ -22,25 +22,20 @@ class ParsePromos implements ParserInterface {
         $promotions = array();
 
         // Re-organize by group id
-        if ( is_array( $promos['promotions'] ) ) {
-
+        if (is_array($promos['promotions'])) {
             // Loop through each promo item
-            foreach ( $promos['promotions'] as $item ) {
-
+            foreach ($promos['promotions'] as $item) {
                 // Organize them by their reference
                 $promotions[$group_reference[$item['promo_group_id']]][$item['promo_item_id']] = $item;
             }
         }
 
         // If there are special config cases
-        if ( is_array($config) && count($config) > 0 ) {
-
+        if (is_array($config) && count($config) > 0) {
             // Key should be the group ID
-            foreach ( $config as $group_name => $option ) {
-
+            foreach ($config as $group_name => $option) {
                 // If there is a group with this ID
-                if ( array_key_exists($group_name, $promotions) ) {
-
+                if (array_key_exists($group_name, $promotions)) {
                     // Perform the action
                     $promotions[$group_name] = $this->performConfig($promotions[$group_name], $option);
                 }
@@ -60,23 +55,22 @@ class ParsePromos implements ParserInterface {
     protected function performConfig(array &$array, $option)
     {
         // Allow for the option to be a pipe delimited list
-        foreach ( explode( '|', $option ) as $action ) {
-
+        foreach (explode('|', $option) as $action) {
             // Check to see if there are options on the action
-            $action = explode( ':', $action );
+            $action = explode(':', $action);
 
             // Perform the action based on the config
-            switch (current( $action )) {
+            switch (current($action)) {
 
                 // Shuffle the array (looses keys)
                 case 'randomize':
-                    shuffle( $array );
+                    shuffle($array);
                     break;
 
                 // Limit the number returned
                 case 'limit':
-                    if ( isset($action[1]) ) {
-                        $array = $this->arrayLimit( $array, $action[1] );
+                    if (isset($action[1])) {
+                        $array = $this->arrayLimit($array, $action[1]);
                     }
                     break;
 
@@ -87,15 +81,15 @@ class ParsePromos implements ParserInterface {
 
                 // Only return the 'per page' associated with a specific page_id
                 case 'page_id':
-                    if ( isset($action[1]) ) {
-                        $array = $this->arrayPage( $array, $action[1] );
+                    if (isset($action[1])) {
+                        $array = $this->arrayPage($array, $action[1]);
                     }
                     break;
 
                 // Reorder array by an array key
                 case 'order':
-                    if ( isset($action[1]) ) {
-                        $array = $this->arrayOrder( $array, $action[1] );
+                    if (isset($action[1])) {
+                        $array = $this->arrayOrder($array, $action[1]);
                     }
                     break;
             }
@@ -109,10 +103,10 @@ class ParsePromos implements ParserInterface {
      * @param $count
      * @return array
      */
-    protected function arrayLimit( array &$array, $count )
+    protected function arrayLimit(array &$array, $count)
     {
         // Chop off the rest of the array
-        return array_slice( $array, 0, (int) $count, true );
+        return array_slice($array, 0, (int) $count, true);
     }
 
     /**
@@ -120,13 +114,13 @@ class ParsePromos implements ParserInterface {
      * @param $page_id
      * @return array
      */
-    protected function arrayPage( array &$array, $page_id )
+    protected function arrayPage(array &$array, $page_id)
     {
         // Return only the promotions selected for this page
         $page_array = array();
 
-        foreach ( $array as $key => $item ) {
-            if ( strstr(',' . $item['page_id'] . ',', ',' . $page_id . ',') ) {
+        foreach ($array as $key => $item) {
+            if (strstr(',' . $item['page_id'] . ',', ',' . $page_id . ',')) {
                 $page_array[$key] = $item;
             }
         }
@@ -139,20 +133,20 @@ class ParsePromos implements ParserInterface {
      * @param $field
      * @return array
      */
-    protected function arrayOrder( array &$array, $field )
+    protected function arrayOrder(array &$array, $field)
     {
         switch ($field) {
             case 'start_date_desc':
-                usort( $array, 'self::sortStartDateDesc' );
+                usort($array, 'self::sortStartDateDesc');
                 break;
             case 'start_date_asc':
-                usort( $array, 'self::sortStartDateAsc' );
+                usort($array, 'self::sortStartDateAsc');
                 break;
             case 'display_date_desc':
-                usort( $array, 'self::sortDisplayDateDesc' );
+                usort($array, 'self::sortDisplayDateDesc');
                 break;
             case 'display_date_asc':
-                usort( $array, 'self::sortDisplayDateAsc' );
+                usort($array, 'self::sortDisplayDateAsc');
                 break;
         }
 
