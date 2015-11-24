@@ -148,6 +148,12 @@ class ParsePromos implements ParserInterface
             case 'display_date_asc':
                 usort($array, 'self::sortDisplayDateAsc');
                 break;
+            case 'title_desc':
+                usort($array, 'self::sortTitleDesc');
+                break;
+            case 'title_asc':
+                usort($array, 'self::sortTitleAsc');
+                break;
         }
 
         return $array;
@@ -203,5 +209,31 @@ class ParsePromos implements ParserInterface
             return 0;
         }
         return ($first['start_date'] < $second['start_date']) ? -1 : 1;
+    }
+
+    /**
+     * @param mixed $first
+     * @param mixed $second
+     * @return int
+     */
+    private static function sortTitleAsc($first, $second)
+    {
+        if ($first['title'] == $second['title']) {
+            return 0;
+        }
+        return ($first['title'] < $second['title']) ? -1 : 1;
+    }
+
+    /**
+     * @param mixed $first
+     * @param mixed $second
+     * @return int
+     */
+    private static function sortTitleDesc($first, $second)
+    {
+        if ($first['title'] == $second['title']) {
+            return 0;
+        }
+        return ($first['title'] > $second['title']) ? -1 : 1;
     }
 }

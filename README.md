@@ -71,6 +71,8 @@ Config options
     'order:start_date_asc' = Return an ordered list by 'start_date' ASC
     'order:display_date_desc' = Return an ordered list by 'display_date' DESC
     'order:display_date_asc' = Return an ordered list by 'display_date' ASC
+    'order:title_desc' = Return an ordered list by 'title' DESC
+    'order:title_asc' = Return an ordered list by 'title' ASC
     'page_id:#' = Return only promotions in the list marked for this page
 
     'order:start_date_desc|first' = Options can be run in combination by piping to another config
