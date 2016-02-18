@@ -409,7 +409,8 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldReturnIntGroupKeys() {
+    public function shouldReturnIntGroupKeys()
+    {
         // Parse the promotions
         $parsed = $this->parser->parse($this->promos, $this->groups);
 
@@ -425,7 +426,8 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldReturnStringGroupKeys() {
+    public function shouldReturnStringGroupKeys()
+    {
         // Parse the promotions
         $parsed = $this->parser->parse($this->promos, $this->groups);
 
