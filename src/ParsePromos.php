@@ -52,7 +52,7 @@ class ParsePromos implements ParserInterface
      * @param array $group_reference
      * @return array
      */
-    function groups(array $promos, array $group_reference = array()) {
+    public function groups(array $promos, array $group_reference = array()) {
         $groups = array();
 
         // Make sure we have promotional items
