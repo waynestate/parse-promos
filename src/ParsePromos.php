@@ -46,6 +46,34 @@ class ParsePromos implements ParserInterface
     }
 
     /**
+     * Parse the promotions array
+     *
+     * @param array $promos
+     * @param array $group_reference
+     * @return array
+     */
+    public function groups(array $promos, array $group_reference = array())
+    {
+        $groups = array();
+
+        // Make sure we have promotional items
+        if (is_array($promos)) {
+            foreach ($promos as $items) {
+                // Get the first item in that group
+                $first_item = current($items);
+
+                // If group reference is passed, then use that as the key otherwise default to promo_group_id
+                $key = isset($group_reference[$first_item['group']['promo_group_id']]) ? $group_reference[$first_item['group']['promo_group_id']] : $first_item['group']['promo_group_id'];
+
+                // Set the name of the promo group
+                $groups[$key] = $first_item['group']['title'];
+            }
+        }
+
+        return $groups;
+    }
+
+    /**
      * Take a promotion group and perform an action on it
      *
      * @param array $array
