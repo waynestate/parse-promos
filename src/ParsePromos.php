@@ -17,7 +17,7 @@ class ParsePromos implements ParserInterface
      * @param array $config
      * @return array
      */
-    public function parse(array &$promos, array $group_reference, array $config = array())
+    public function parse(array &$promos, array $group_reference = array(), array $config = array())
     {
         $promotions = array();
 
@@ -26,7 +26,8 @@ class ParsePromos implements ParserInterface
             // Loop through each promo item
             foreach ($promos['promotions'] as $item) {
                 // Organize them by their reference
-                $promotions[$group_reference[$item['promo_group_id']]][$item['promo_item_id']] = $item;
+                $key = (array_key_exists($item['promo_group_id'], $group_reference))?$group_reference[$item['promo_group_id']]:$item['promo_group_id'];
+                $promotions[$key][$item['promo_item_id']] = $item;
             }
         }
 

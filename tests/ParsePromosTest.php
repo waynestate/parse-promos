@@ -131,7 +131,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                 ),
                 8 => array(
                     'promo_item_id' => 8,
-                    'promo_group_id' => 2,
+                    'promo_group_id' => 99999,
                     'page_id' => '4,6,7',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
@@ -156,6 +156,20 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
 
         // Verify the array has been reorganized
         $this->assertArrayHasKey('one', $parsed);
+    }
+
+    /**
+     * @test
+     */
+    public function returnPromotionsWithoutGroupNames()
+    {
+        // Basic parse with no groups
+        $parsed = $this->parser->parse($this->promos);
+
+        // Assert that all keys are integers
+        foreach (array_keys($parsed) as $key) {
+            $this->assertInternalType('int', $key);
+        }
     }
 
     /**
@@ -409,7 +423,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldReturnIntGroupKeys()
+    public function shouldReturnGroupKeys()
     {
         // Parse the promotions
         $parsed = $this->parser->parse($this->promos, $this->groups);
@@ -417,9 +431,12 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         // Parse for the group names
         $groups = $this->parser->groups($parsed, $this->groups);
 
-        // Assert that the keys are not type INT
-        foreach ($groups as $key=>$item) {
-            $this->assertNotInternalType('int', $key);
+        // Remove any group labels from the parsed group return
+        $should_only_be_strings = array_intersect_key(array_keys($groups), array_values($this->groups));
+
+        // Difference in keys should only be integers
+        foreach ($should_only_be_strings as $key) {
+            $this->assertInternalType('string', $key);
         }
     }
 
@@ -434,9 +451,12 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         // Parse for the group names
         $groups = $this->parser->groups($parsed);
 
-        // Assert that the keys are not type STRING
-        foreach ($groups as $key=>$item) {
-            $this->assertNotInternalType('string', $key);
+        // Remove any group labels from the parsed group return
+        $should_only_be_ints = array_diff_key(array_keys($groups), array_values($this->groups));
+
+        // Difference in keys should only be integers
+        foreach ($should_only_be_ints as $key) {
+            $this->assertInternalType('int', $key);
         }
     }
 }
