@@ -21,6 +21,11 @@ class ParsePromos implements ParserInterface
     {
         $promotions = array();
 
+        // Initialize Promotion Groups
+        foreach((array)$group_reference as $key => $value){
+            $promotions[$value] = array();
+        }
+
         // Re-organize by group id
         if (is_array($promos['promotions'])) {
             // Loop through each promo item
