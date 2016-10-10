@@ -33,6 +33,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         $this->groups = array(
             1 => 'one',
             2 => 'two',
+            3 => 'three',
         );
 
         // Stub promotions
@@ -458,5 +459,16 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         foreach ($should_only_be_ints as $key) {
             $this->assertInternalType('int', $key);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function should_be_blank_if_no_promotions_available()
+    {
+        $parsed = $this->parser->parse($this->promos, $this->groups);
+
+        // Make sure a blank array is returned for the 3 group
+        $this->assertEmpty($parsed['three']);
     }
 }
