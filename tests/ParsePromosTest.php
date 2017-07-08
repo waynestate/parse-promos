@@ -150,6 +150,20 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function accountForMalformedArray()
+    {
+        $promos = [];
+
+        // Pass in non-ideal $promos array
+        $parsed = $this->parser->parse($promos, $this->groups);
+
+        // Verify the array has been reorganized without a warning
+        $this->assertArrayHasKey('one', $parsed);
+    }
+
+    /**
+     * @test
+     */
     public function changeKeysToGroupName()
     {
         // Basic parse with no config
