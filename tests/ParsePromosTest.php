@@ -152,7 +152,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
      */
     public function accountForMalformedArray()
     {
-        $promos = [];
+        $promos = array();
 
         // Pass in non-ideal $promos array
         $parsed = $this->parser->parse($promos, $this->groups);
