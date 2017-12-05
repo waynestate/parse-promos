@@ -12,12 +12,12 @@ class ParsePromos implements ParserInterface
     /**
      * Parse the promotions array
      *
-     * @param array $promos
+     * @param mixed $promos
      * @param array $group_reference
      * @param array $config
      * @return array
      */
-    public function parse(array &$promos, array $group_reference = array(), array $config = array())
+    public function parse($promos, array $group_reference = array(), array $config = array())
     {
         $promotions = array();
 
