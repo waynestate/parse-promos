@@ -27,7 +27,7 @@ class ParsePromos implements ParserInterface
         }
 
         // Re-organize by group id
-        if (is_array($promos['promotions'])) {
+        if (isset($promos['promotions']) && is_array($promos['promotions']) && array_key_exists('promotions', $promos)) {
             // Loop through each promo item
             foreach ($promos['promotions'] as $item) {
                 // Organize them by their reference
