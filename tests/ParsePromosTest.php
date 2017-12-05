@@ -485,4 +485,17 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         // Make sure a blank array is returned for the 3 group
         $this->assertEmpty($parsed['three']);
     }
+
+    /**
+     * @test
+     */
+    public function parsing_null_promos_should_return_blank_groups()
+    {
+        $parsed = $this->parser->parse(null, $this->groups);
+
+        // Make sure all groups are blank
+        foreach($parsed as $group) {
+            $this->assertEmpty($group);
+        }
+    }
 }

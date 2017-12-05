@@ -12,12 +12,12 @@ class ParsePromos implements ParserInterface
     /**
      * Parse the promotions array
      *
-     * @param array $promos
+     * @param mixed $promos
      * @param array $group_reference
      * @param array $config
      * @return array
      */
-    public function parse(array &$promos, array $group_reference = array(), array $config = array())
+    public function parse($promos, array $group_reference = array(), array $config = array())
     {
         $promotions = array();
 
@@ -27,7 +27,7 @@ class ParsePromos implements ParserInterface
         }
 
         // Re-organize by group id
-        if (array_key_exists('promotions', $promos) && is_array($promos['promotions'])) {
+        if (isset($promos['promotions']) && is_array($promos['promotions']) && array_key_exists('promotions', $promos)) {
             // Loop through each promo item
             foreach ($promos['promotions'] as $item) {
                 // Organize them by their reference
