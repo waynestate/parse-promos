@@ -110,7 +110,9 @@ class ParsePromos implements ParserInterface
 
                 // Picks just the first one
                 case 'first':
-                    $array = current($array);
+                    if(count($array) > 0) {
+                        $array = current($array);
+                    }
                     break;
 
                 // Only return the 'per page' associated with a specific page_id
