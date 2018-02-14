@@ -489,13 +489,19 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function parsing_null_promos_should_return_blank_groups()
+    public function parsing_null_promos_with_configs_should_return_blank_groups()
     {
-        $parsed = $this->parser->parse(null, $this->groups);
+        $config = [
+            'one' => 'first',
+            'two' => 'randomize',
+            'three' => 'limit:2|page_id:2|order:start_date_desc',
+        ];
+
+        $parsed = $this->parser->parse(null, $this->groups, $config);
 
         // Make sure all groups are blank
         foreach($parsed as $group) {
-            $this->assertEmpty($group);
+            $this->assertCount(0, $group);
         }
-    }
+    } 
 }
