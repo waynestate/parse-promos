@@ -21,62 +21,64 @@ Usage
 
 Create the object
 
-    # start.php
+```php
+use Waynestate\Promotions\ParsePromos;
 
-    use Waynestate\Promotions\ParsePromos;
+...
 
-    ...
-
-    $parsePromos = new Waynestate\Promotions\ParsePromos();
+$parsePromos = new Waynestate\Promotions\ParsePromos();
+```
 
 Make an API call for promotions
 
-    # controller.php
+```php
+// Promotion groups to pull ( id => short_name )
+$group_reference = [
+    123 => 'circle',
+    124 => 'alumni-links',
+    125 => 'contact',
+    126 => 'progress-amount',
+    127 => 'progress-text',
+];
 
-    // Promotion groups to pull ( id => short_name )
-    $group_reference = array(
-        '123' => 'circle',
-        '124' => 'alumni-links',
-        '125' => 'contact',
-        '126' => 'progress-amount',
-        '127' => 'progress-text',
-    );
+// How to parse each group after the return ( short_name => config_option )
+$group_config = [
+    'contact' => 'first',
+    'progress-amount' => 'limit:1',
+    'progress-text' => 'randomize|first',
+];
 
-    // How to parse each group after the return ( short_name => config_option )
-    $group_config = array(
-        'contact' => 'first',
-        'progress-amount' => 'limit:1',
-        'progress-text' => 'randomize|first',
-    );
+// Pull all the active items from the API
+$params = [
+    'promo_group_id' => array_keys($group_reference),
+    'is_active' => '1',
+    'ttl' => TTL,
+];
 
-    // Pull all the active items from the API
-    $params = array(
-        'promo_group_id' => array_keys($group_reference),
-        'is_active' => '1',
-        'ttl' => TTL,
-    );
+// Get the raw promotions from the API
+$raw_promos = $api->sendRequest('cms.promotions.listing', $params);
 
-    // Get the raw promotions from the API
-    $raw_promos = $api->sendRequest('cms.promotions.listing', $params);
-
-    // Parse the promotions based on the config set
-    $parsed_promos = $parsePromos->parse($raw_promos, $group_reference, $group_config);
+// Parse the promotions based on the config set
+$parsed_promos = $parsePromos->parse($raw_promos, $group_reference, $group_config);
+```
 
 Config options
 
-    'first' = Return only the first item in the list (not part of an array)
-    'randomize' = Take the returned list and mix it up
-    'limit:#' = Return just # number of results from the list
-    'order:start_date_desc' = Return an ordered list by 'start_date' DESC
-    'order:start_date_asc' = Return an ordered list by 'start_date' ASC
-    'order:display_date_desc' = Return an ordered list by 'display_date' DESC
-    'order:display_date_asc' = Return an ordered list by 'display_date' ASC
-    'order:title_desc' = Return an ordered list by 'title' DESC
-    'order:title_asc' = Return an ordered list by 'title' ASC
-    'page_id:#' = Return only promotions in the list marked for this page
+```
+'first' = Return only the first item in the list (not part of an array)
+'randomize' = Take the returned list and mix it up
+'limit:#' = Return just # number of results from the list
+'order:start_date_desc' = Return an ordered list by 'start_date' DESC
+'order:start_date_asc' = Return an ordered list by 'start_date' ASC
+'order:display_date_desc' = Return an ordered list by 'display_date' DESC
+'order:display_date_asc' = Return an ordered list by 'display_date' ASC
+'order:title_desc' = Return an ordered list by 'title' DESC
+'order:title_asc' = Return an ordered list by 'title' ASC
+'page_id:#' = Return only promotions in the list marked for this page
+'youtube' = Parse the 'link' field for YouTube video ID, place in a new 'video_id' field
 
-    'order:start_date_desc|first' = Options can be run in combination by piping to another config
-
+'order:start_date_desc|first' = Options can be run in combination by piping to another config
+```
 
 Tests
 

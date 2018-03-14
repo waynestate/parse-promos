@@ -1,5 +1,6 @@
 <?php namespace Waynestate\Promotions;
 
+use Waynestate\Youtube\ParseId;
 use Waynestate\Promotions\ParserInterface;
 use Waynestate\Promotions\ParsePromosException;
 
@@ -17,13 +18,13 @@ class ParsePromos implements ParserInterface
      * @param array $config
      * @return array
      */
-    public function parse($promos, array $group_reference = array(), array $config = array())
+    public function parse($promos, array $group_reference = [], array $config = [])
     {
-        $promotions = array();
+        $promotions = [];
 
         // Initialize Promotion Groups
-        foreach((array)$group_reference as $key => $value){
-            $promotions[$value] = array();
+        foreach ((array)$group_reference as $key => $value) {
+            $promotions[$value] = [];
         }
 
         // Re-organize by group id
@@ -58,9 +59,9 @@ class ParsePromos implements ParserInterface
      * @param array $group_reference
      * @return array
      */
-    public function groups(array $promos, array $group_reference = array())
+    public function groups(array $promos, array $group_reference = [])
     {
-        $groups = array();
+        $groups = [];
 
         // Make sure we have promotional items
         if (is_array($promos)) {
@@ -110,7 +111,7 @@ class ParsePromos implements ParserInterface
 
                 // Picks just the first one
                 case 'first':
-                    if(count($array) > 0) {
+                    if (count($array) > 0) {
                         $array = current($array);
                     }
                     break;
@@ -127,6 +128,11 @@ class ParsePromos implements ParserInterface
                     if (isset($action[1])) {
                         $array = $this->arrayOrder($array, $action[1]);
                     }
+                    break;
+
+                // Parse out YouTube ID from link field
+                case 'youtube':
+                    $array = $this->parseYouTubeID($array);
                     break;
             }
         }
@@ -153,7 +159,7 @@ class ParsePromos implements ParserInterface
     protected function arrayPage(array &$array, $page_id)
     {
         // Return only the promotions selected for this page
-        $page_array = array();
+        $page_array = [];
 
         foreach ($array as $key => $item) {
             if (strstr(',' . $item['page_id'] . ',', ',' . $page_id . ',')) {
@@ -162,6 +168,21 @@ class ParsePromos implements ParserInterface
         }
 
         return $page_array;
+    }
+
+    /**
+     * Take a YouTube URL and parse out the YouTube ID as a separate field
+     *
+     * @param array $array
+     * @return array
+     */
+    protected function parseYouTubeID(array &$array)
+    {
+        foreach ($array as $key => $item) {
+            $array[$key]['youtube_id'] = ParseId::fromUrl($item['link']);
+        }
+
+        return $array;
     }
 
     /**

@@ -1,10 +1,12 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Waynestate\Promotions\ParsePromos;
 
 /**
  * Class ParsePromosTest
  */
-class ParsePromosTest extends PHPUnit_Framework_TestCase
+class ParsePromosTest extends TestCase
 {
     /**
      * @var
@@ -30,121 +32,129 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         $this->parser = new ParsePromos;
 
         // Stub group names
-        $this->groups = array(
+        $this->groups = [
             1 => 'one',
             2 => 'two',
             3 => 'three',
-        );
+        ];
 
         // Stub promotions
-        $this->promos = array(
-            'promotions' => array(
-                1 => array(
+        $this->promos = [
+            'promotions' => [
+                1 => [
                     'promo_item_id' => 1,
                     'promo_group_id' => 1,
                     'page_id' => '1,2,3,4',
                     'display_start_date' => '2014-01-01',
                     'start_date' => '2014-01-01',
                     'title' => 'Zebra',
+                    'link' => '',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 1,
                         'title' => $this->groups[1],
-                    ),
-                ),
-                2 => array(
+                    ],
+                ],
+                2 => [
                     'promo_item_id' => 2,
                     'promo_group_id' => 1,
                     'page_id' => '2,3,4',
                     'display_start_date' => '2014-01-02',
                     'start_date' => '2014-01-03',
                     'title' => 'Bear',
+                    'link' => 'https://wayne.edu/',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 1,
                         'title' => $this->groups[1],
-                    ),
-                ),
-                3 => array(
+                    ],
+                ],
+                3 => [
                     'promo_item_id' => 3,
                     'promo_group_id' => 1,
                     'page_id' => '3,4',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Cat',
+                    'link' => 'https://youtube.com/',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 1,
                         'title' => $this->groups[1],
-                    ),
-                ),
-                4 => array(
+                    ],
+                ],
+                4 => [
                     'promo_item_id' => 4,
                     'promo_group_id' => 1,
                     'page_id' => '4,5,6',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Dog',
+                    'link' => 'http://www.youtube.com/watch?v=PHqfwq033yQ',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 1,
                         'title' => $this->groups[1],
-                    ),
-                ),
-                5 => array(
+                    ],
+                ],
+                5 => [
                     'promo_item_id' => 5,
                     'promo_group_id' => 1,
                     'page_id' => '4,6,7',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Kitty',
+                    'link' => 'http://www.youtube.com/v/PHqfwq033yQ?version=3&autohide=1',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 1,
                         'title' => $this->groups[1],
-                    ),
-                ),
-                6 => array(
+                    ],
+                ],
+                6 => [
                     'promo_item_id' => 6,
                     'promo_group_id' => 2,
                     'page_id' => '4,6,7',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Red',
+                    'link' => 'http://youtu.be/PHqfwq033yQ',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 2,
                         'title' => $this->groups[2],
-                    ),
-                ),
-                7 => array(
+                    ],
+                ],
+                7 => [
                     'promo_item_id' => 7,
                     'promo_group_id' => 2,
                     'page_id' => '4,6,7',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Blue',
+                    'link' => 'https://www.youtube.com/embed/PHqfwq033yQ',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 2,
                         'title' => $this->groups[2],
-                    ),
-                ),
-                8 => array(
+                    ],
+                ],
+                8 => [
                     'promo_item_id' => 8,
                     'promo_group_id' => 99999,
                     'page_id' => '4,6,7',
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Circle',
+                    'link' => 'https://youtube.com/v/PHqfwq033yQ',
                     'data' => 'foo',
-                    'group' => array(
+                    'group' => [
                         'promo_group_id' => 99999,
                         'title' => 'Random Group Not In Group Reference Array',
-                    ),
-                ),
-            )
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -152,7 +162,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
      */
     public function accountForMalformedArray()
     {
-        $promos = array();
+        $promos = [];
 
         // Pass in non-ideal $promos array
         $parsed = $this->parser->parse($promos, $this->groups);
@@ -193,9 +203,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldReturnASingleItem()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'first',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -210,9 +220,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldLimitOne()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'limit:1',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -227,9 +237,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldLimitMultiple()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'limit:2',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -244,14 +254,15 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldRandomize()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'randomize',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
 
-        // TODO: Figure out how to test a shuffled array
+        // Verify the same number of elements in array
+        $this->assertCount(5, $parsed['one']);
     }
 
     /**
@@ -260,9 +271,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldLimitToPageThatExists()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'page_id:3',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -277,9 +288,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldLimitToPageThatDoesNotExists()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'page_id:999',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -294,9 +305,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldOrderByDisplayDateDesc()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:display_date_desc',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -315,9 +326,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldOrderByDisplayDateAsc()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:display_date_asc',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -336,9 +347,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldOrderByStartDateDesc()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:start_date_desc',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -357,9 +368,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldOrderByStartDateAsc()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:start_date_asc',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -378,9 +389,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldOrderByTitleAsc()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:title_asc',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -399,9 +410,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldOrderByTitleDesc()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:title_desc',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -420,9 +431,9 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
     public function shouldChainConfigs()
     {
         // Group 'one' should only return the first item
-        $config = array(
+        $config = [
             'one' => 'order:start_date_desc|limit:1',
-        );
+        ];
 
         // Parse the promotions based on the config
         $parsed = $this->parser->parse($this->promos, $this->groups, $config);
@@ -500,8 +511,40 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
         $parsed = $this->parser->parse(null, $this->groups, $config);
 
         // Make sure all groups are blank
-        foreach($parsed as $group) {
+        foreach ($parsed as $group) {
             $this->assertCount(0, $group);
         }
-    } 
+    }
+
+    /**
+     * @test
+     */
+    public function parsing_youtube_should_always_contain_youtube_id_array_key()
+    {
+        $config = [
+            'one' => 'youtube',
+        ];
+
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        foreach ($parsed['one'] as $item) {
+            $this->assertArrayHasKey('youtube_id', $item);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function parsing_youtube_id_should_successfully_parse_all_variants_of_youtube_urls()
+    {
+        $config = [
+            'two' => 'youtube',
+        ];
+
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        foreach ($parsed['two'] as $item) {
+            $this->assertArrayHasKey('youtube_id', $item);
+        }
+    }
 }
