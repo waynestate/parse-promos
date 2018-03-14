@@ -1,16 +1,19 @@
 {
     "name": "waynestate/parse-promos",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "type": "library",
     "description": "Parse promotion arrays from the Wayne State University API",
-    "keywords": ["array","parse"],
+    "keywords": [
+        "array",
+        "parse"
+    ],
     "homepage": "http://github.com/waynestate/parse-promos",
     "license": "MIT",
     "authors": [
         {
             "name": "Nick DeNardis",
-            "email": "nick.denardis@gmail.com",
-            "homepage": "http://nickdenardis.com/",
+            "email": "ndenardis@wayne.edu",
+            "homepage": "https://wayne.edu/",
             "role": "Developer"
         }
     ],
@@ -26,8 +29,8 @@
         "phpunit/phpunit": "^6"
     },
     "autoload": {
-        "psr-4":{
-            "Waynestate\\Promotions\\":"src"
+        "psr-4": {
+            "Waynestate\\Promotions\\": "src"
         }
     }
 }
