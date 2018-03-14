@@ -46,6 +46,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-01',
                     'start_date' => '2014-01-01',
                     'title' => 'Zebra',
+                    'link' => '',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 1,
@@ -59,6 +60,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-02',
                     'start_date' => '2014-01-03',
                     'title' => 'Bear',
+                    'link' => 'https://wayne.edu/',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 1,
@@ -72,6 +74,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Cat',
+                    'link' => 'https://youtube.com/',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 1,
@@ -85,6 +88,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Dog',
+                    'link' => 'http://www.youtube.com/watch?v=PHqfwq033yQ',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 1,
@@ -98,6 +102,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Kitty',
+                    'link' => 'http://www.youtube.com/v/PHqfwq033yQ?version=3&autohide=1',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 1,
@@ -111,6 +116,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Red',
+                    'link' => 'http://youtu.be/PHqfwq033yQ',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 2,
@@ -124,6 +130,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Blue',
+                    'link' => 'https://www.youtube.com/embed/PHqfwq033yQ',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 2,
@@ -137,6 +144,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
                     'display_start_date' => '2014-01-03',
                     'start_date' => '2014-01-02',
                     'title' => 'Circle',
+                    'link' => 'https://youtube.com/v/PHqfwq033yQ',
                     'data' => 'foo',
                     'group' => array(
                         'promo_group_id' => 99999,
@@ -152,7 +160,7 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
      */
     public function accountForMalformedArray()
     {
-        $promos = array();
+        $promos = [];
 
         // Pass in non-ideal $promos array
         $parsed = $this->parser->parse($promos, $this->groups);
@@ -504,4 +512,36 @@ class ParsePromosTest extends PHPUnit_Framework_TestCase
             $this->assertCount(0, $group);
         }
     } 
+
+    /**
+     * @test
+     */
+    public function parsing_youtube_should_always_contain_youtube_id_array_key()
+    {
+        $config = [
+            'one' => 'youtube',
+        ];
+
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        foreach ($parsed['one'] as $item) {
+            $this->assertArrayHasKey('youtube_id', $item);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function parsing_youtube_id_should_successfully_parse_all_variants_of_youtube_urls()
+    {
+        $config = [
+            'two' => 'youtube',
+        ];
+
+        $parsed = $this->parser->parse($this->promos, $this->groups, $config);
+
+        foreach ($parsed['two'] as $item) {
+            $this->assertArrayHasKey('youtube_id', $item);
+        }
+    }
 }
