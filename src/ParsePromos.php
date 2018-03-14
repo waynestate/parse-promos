@@ -23,7 +23,7 @@ class ParsePromos implements ParserInterface
         $promotions = [];
 
         // Initialize Promotion Groups
-        foreach((array)$group_reference as $key => $value){
+        foreach ((array)$group_reference as $key => $value) {
             $promotions[$value] = [];
         }
 
@@ -111,7 +111,7 @@ class ParsePromos implements ParserInterface
 
                 // Picks just the first one
                 case 'first':
-                    if(count($array) > 0) {
+                    if (count($array) > 0) {
                         $array = current($array);
                     }
                     break;
@@ -172,7 +172,7 @@ class ParsePromos implements ParserInterface
 
     /**
      * Take a YouTube URL and parse out the YouTube ID as a separate field
-     * 
+     *
      * @param array $array
      * @return array
      */
